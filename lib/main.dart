@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grievance_mobile/screens/profile_screen.dart';
+import 'package:grievance_mobile/screens/home_screen.dart';
+import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
 // Add this to your main.dart
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'SF Pro Display',
       ),
       // home: const HomePage(),
-      home: const ProfileScreen(),
+      home: const HomePage(),
     );
   }
 }
