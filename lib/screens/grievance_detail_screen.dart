@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/utils/colors.dart';
 
 class GrievanceDetailsPage extends StatelessWidget {
   const GrievanceDetailsPage({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class GrievanceDetailsPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 60,
-            color: Colors.blue[700],
+            color: AppColors.primaryColor,
             child: const Row(
               children: [
                 SizedBox(width: 16),
@@ -64,7 +65,7 @@ class GrievanceDetailsPage extends StatelessWidget {
                         Text(
                           'Grievance ID',
                           style: TextStyle(
-                            color: Colors.blue[700],
+                            color: AppColors.primaryColor,
                             fontSize: 16,
                           ),
                         ),
@@ -150,7 +151,7 @@ class GrievanceDetailsPage extends StatelessWidget {
               Text(
                 'Grievance ID',
                 style: TextStyle(
-                  color: Colors.blue[700],
+                  color: AppColors.primaryColor,
                   fontSize: 14,
                 ),
               ),

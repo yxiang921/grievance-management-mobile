@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/widgets.dart';
+import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 
 class HomePage extends StatelessWidget {
@@ -115,11 +115,11 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 60,
-                color: Colors.blue[700],
+                color: AppColors.primaryColor,
                 child: const Row(
                   children: [
                     Text(
-                      'HomePage',
+                      'Home',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
