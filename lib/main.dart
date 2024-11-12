@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
+import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
 import 'package:grievance_mobile/screens/register_screen.dart';
@@ -48,7 +49,6 @@ class _MainScreenState extends State<MainScreen> {
   // List of pages to show for each bottom navigation item
   final List<Widget> _pages = [
     HomePage(),
-    GrievanceDetailsPage(),
     GrievanceHistoryScreen(),
     ProfileScreen(),
   ];
@@ -66,6 +66,33 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+      ),
+      appBar: AppBar(
+        title: Text('FLT GMS'),
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.white,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SubmitGrievancePage()),
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.white,
       ),
     );
   }

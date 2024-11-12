@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/utils/colors.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
   const GrievanceHistoryScreen({Key? key}) : super(key: key);
@@ -13,37 +14,10 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(
-        title: const Text(
-          'Grievance History',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.blue[700],
-      ),
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.blue[700],
-            child: Row(
-              children: [
-                Text(
-                  '3 grievance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Row(
               children: [
                 _buildTabButton('Pending', showPending),
@@ -86,7 +60,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
           });
         },
         style: TextButton.styleFrom(
-          backgroundColor: isSelected ? Colors.blue[700] : Colors.grey[300],
+          backgroundColor: isSelected ? AppColors.primaryColor : Colors.grey[300],
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -150,7 +124,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                     Text(
                       dueDate,
                       style: TextStyle(
-                        color: Colors.blue[700],
+                        color: AppColors.primaryColor,
                         fontSize: 14,
                       ),
                     ),
