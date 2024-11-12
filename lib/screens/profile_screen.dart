@@ -18,13 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: const Color(0xFF5B42F3),
         title: const Row(
           children: [
-            Text(
-              'Text',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
             SizedBox(width: 8),
             Text(
               'Profile',
@@ -35,12 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () {
-            // TODO: Implement menu functionality
-          },
-        ),
       ),
       body: Column(
         children: [
@@ -49,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                // Profile Image
                 Container(
                   width: 80,
                   height: 80,
