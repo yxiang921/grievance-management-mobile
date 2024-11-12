@@ -8,8 +8,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   bool _isAnonymous = false;
-  int _selectedIndex = 3; // Profile tab selected
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         children: [
           Container(
-            color: const Color(0xFF5B42F3),
             padding: const EdgeInsets.only(bottom: 24),
             child: Column(
               children: [
@@ -73,7 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Text(
                   'Andrea Davis',
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
@@ -83,7 +81,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Text(
                   'andrea@domainname.com',
                   style: TextStyle(
-                    color: Color(0xFF7FFFD4),
                     fontSize: 14,
                   ),
                 ),
@@ -218,35 +215,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF5B42F3),
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: '',
           ),
         ],
       ),

@@ -13,9 +13,8 @@ class GrievanceDetailsPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 60,
             color: Colors.blue[700],
-            child: Row(
+            child: const Row(
               children: [
-                Icon(Icons.menu, color: Colors.white),
                 SizedBox(width: 16),
                 Text(
                   'Grievance Details',

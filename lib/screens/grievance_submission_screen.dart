@@ -67,12 +67,8 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               
               // Column field
               Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.orange, width: 1),
-                ),
-                child: TextField(
+                decoration: _buildInputDecoration(),
+                child: const TextField(
                   decoration: InputDecoration(
                     hintText: 'Column',
                     contentPadding: EdgeInsets.all(16),
@@ -191,32 +187,6 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-      
-      // Bottom Navigation
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 4,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.add_circle_outline, size: 30),
-              Icon(Icons.home, size: 30),
-              Icon(Icons.access_time, size: 30),
-              Icon(Icons.person_outline, size: 30),
             ],
           ),
         ),
