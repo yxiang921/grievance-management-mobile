@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/utils/colors.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,7 +15,8 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -25,18 +27,17 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Submit Grievance',
           style: TextStyle(
-            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
@@ -48,41 +49,37 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Welcome to support',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 16,
-                ),
-              ),
               SizedBox(height: 8),
               Text(
-                'Submit a Grievance',
+                'Hello, John Doe!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 16),
-              
-              // Column field
+
+              Text(
+                'Please fill in the details below to submit your grievance.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                ),
+              ),
+
+              SizedBox(height: 16),
+
+              SizedBox(height: 16),
+
+              // Title field
               Container(
                 decoration: _buildInputDecoration(),
                 child: const TextField(
                   decoration: InputDecoration(
-                    hintText: 'Column',
-                    contentPadding: EdgeInsets.all(16),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              
-              // Title field
-              Container(
-                decoration: _buildInputDecoration(),
-                child: TextField(
-                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.primaryColor, width: 2.0),
+                    ),
                     hintText: 'Title',
                     contentPadding: EdgeInsets.all(16),
                     border: InputBorder.none,
@@ -90,13 +87,17 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               SizedBox(height: 16),
-              
+
               // Grievance Details field
               Container(
                 decoration: _buildInputDecoration(),
                 child: TextField(
                   maxLines: 4,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.primaryColor, width: 2.0),
+                    ),
                     hintText: 'Grievance Details',
                     contentPadding: EdgeInsets.all(16),
                     border: InputBorder.none,
@@ -104,12 +105,16 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               SizedBox(height: 16),
-              
+
               // Venue field
               Container(
                 decoration: _buildInputDecoration(),
                 child: TextField(
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.primaryColor, width: 2.0),
+                    ),
                     hintText: 'Venue',
                     contentPadding: EdgeInsets.all(16),
                     border: InputBorder.none,
@@ -117,7 +122,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               SizedBox(height: 16),
-              
+
               // Image preview
               if (_imageFile != null)
                 Container(
@@ -138,13 +143,14 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                      image: NetworkImage('https://via.placeholder.com/400x200'),
+                      image:
+                          NetworkImage('https://via.placeholder.com/400x200'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               SizedBox(height: 16),
-              
+
               // Upload button
               InkWell(
                 onTap: _pickImage,
@@ -172,7 +178,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               SizedBox(height: 24),
-              
+
               // Submit button
               ElevatedButton(
                 onPressed: () {

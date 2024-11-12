@@ -7,28 +7,13 @@ class GrievanceDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: AppColors.white,
+        backgroundColor: AppColors.primaryColor,
+        title: const Text('Grievance Details'),
+      ),
       body: Column(
         children: [
-          // App Bar
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            height: 60,
-            color: AppColors.primaryColor,
-            child: const Row(
-              children: [
-                SizedBox(width: 16),
-                Text(
-                  'Grievance Details',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -89,7 +74,7 @@ class GrievanceDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Recent Grievance',
+                          'Other Recent Grievances',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

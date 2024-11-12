@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 
@@ -44,39 +45,46 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTaskItem() {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 40,
-            color: Colors.blue,
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Task Type',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  'Due: Today, 6:20pm',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+  Widget _buildTaskItem(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => GrievanceDetailsPage() ));
+      },
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 40,
+              color: Colors.blue,
             ),
-          ),
-          Icon(Icons.chevron_right),
-        ],
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Task Type',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    'Due: Today, 6:20pm',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right),
+          ],
+        ),
       ),
     );
   }
@@ -133,7 +141,7 @@ class HomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome, User',
+                          'Welcome, John Doe',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -207,8 +215,8 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      _buildTaskItem(),
-                      _buildTaskItem(),
+                      _buildTaskItem(context),
+                      _buildTaskItem(context),
                     ],
                   ),
                 ),
