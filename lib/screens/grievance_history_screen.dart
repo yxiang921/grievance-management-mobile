@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
@@ -83,63 +84,71 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     String dueDate,
     String status,
   ) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              description,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Due ',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      dueDate,
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GrievanceDetailsPage()),
+        );
+      },
+      child: Card(
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  status,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Due ',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        dueDate,
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Text(
+                    status,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
