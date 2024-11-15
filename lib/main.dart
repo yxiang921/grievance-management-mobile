@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
@@ -11,12 +12,17 @@ import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final authService = AuthService();
+  bool isLoggedIn = await authService.isLoggedIn();
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool isLoggedIn;
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -38,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: LoginScreen(),
+        home: widget.isLoggedIn ? MainScreen() : LoginScreen(),
       ),
     );
   }
@@ -48,9 +54,7 @@ class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 
-  final Map<String, dynamic> userInfo;
-
-  const MainScreen({Key? key, required this.userInfo}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -71,6 +75,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = AuthService();
+
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavBar(
@@ -85,9 +91,10 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
-              Navigator.push(
+              authService.logout();
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterScreen()),
+                MaterialPageRoute(builder: (context) => LoginScreen()),
               );
             },
           ),
