@@ -25,10 +25,10 @@ class AuthService {
 
   Future<void> logout() async {
     await storage.delete(key: 'authToken');
-    await storage.delete(key: 'user');
   }
 
   Future<String?> getToken() async {
+    print("Getting token...");
     return await storage.read(key: 'authToken');
   }
 
@@ -40,6 +40,7 @@ class AuthService {
   Future<Map<String, dynamic>?> getUserInfo() async {
     final token = await getToken();
     if (token == null) {
+      print("Token is null");
       return null;
     }
 

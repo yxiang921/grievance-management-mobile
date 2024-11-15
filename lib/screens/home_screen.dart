@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).loadUserInfo();
     });
   }
@@ -128,9 +128,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final String username = Provider.of<UserProvider>(context).username;
     final String avatarUrl = Provider.of<UserProvider>(context).avatarUrl;
+    final String email = Provider.of<UserProvider>(context).email;
 
-    print('avatar url: $avatarUrl');
-    print('username: $username');
+    print('Username: $username, Avatar: $avatarUrl, Email123: $email');
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
