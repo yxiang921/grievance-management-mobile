@@ -3,6 +3,7 @@ import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
 import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
+import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
 import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: MainScreen(),
+        home: LoginScreen(),
       ),
     );
   }
@@ -42,6 +43,10 @@ class _MyAppState extends State<MyApp> {
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
+
+  final Map<String, dynamic> userInfo;
+
+  const MainScreen({Key? key, required this.userInfo}) : super(key: key);
 }
 
 class _MainScreenState extends State<MainScreen> {

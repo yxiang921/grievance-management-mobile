@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
-}
+} 
 
 class _HomePageState extends State<HomePage> {
   Widget _buildStatsCard(String number, String label, Color color) {
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildTaskItem(BuildContext context) {
+  Widget _buildGrievanceItem(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
@@ -72,13 +72,13 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Task Type',
+                    'Grievance Title',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
-                    'Due: Today, 6:20pm',
+                    'Here is the longer description of the grievance.',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,
@@ -213,15 +213,15 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
-                          'A summary of your tasks',
+                          'Below is the list of your submitted grievances.',
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 14,
                           ),
                         ),
                       ),
-                      _buildTaskItem(context),
-                      _buildTaskItem(context),
+                      _buildGrievanceItem(context),
+                      _buildGrievanceItem(context),
                     ],
                   ),
                 ),

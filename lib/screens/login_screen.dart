@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:grievance_mobile/api/auth_service.dart';
+import 'package:grievance_mobile/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,6 +17,40 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  void _login() async {
+    setState(() => _isLoading = true);
+
+    final success = await _authService.login(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    setState(() => _isLoading = false);
+
+    if (success) {
+      final userInfo = await _authService.getUserInfo();
+      if (userInfo != null) {
+        final storage = FlutterSecureStorage();
+        await storage.write(key: 'user', value: json.encode(userInfo));
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen(userInfo: userInfo)),
+        );
+      }
+
+      print("Login successful");
+    } else {
+      print("Login failed");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed. Please try again.')),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -134,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // TODO: Implement sign in logic
+                          _login();
                         }
                       },
                       style: ElevatedButton.styleFrom(
