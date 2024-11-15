@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
-import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   Widget _buildStatsCard(String number, String label, Color color) {
     return Container(
       padding: EdgeInsets.all(16),
@@ -47,10 +53,9 @@ class HomePage extends StatelessWidget {
 
   Widget _buildTaskItem(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (context) => GrievanceDetailsPage() ));
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => GrievanceDetailsPage()));
       },
       child: Container(
         padding: EdgeInsets.all(16),

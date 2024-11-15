@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
+import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
 import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
@@ -7,6 +7,7 @@ import 'package:grievance_mobile/screens/profile_screen.dart';
 import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,23 +21,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FLT GMS',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: AppColors.primaryColor,
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'SF Pro Display',
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => GrievanceProvider())],
+      child: MaterialApp(
+        title: 'FLT GMS',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: AppColors.primaryColor,
+          scaffoldBackgroundColor: Colors.white,
+          fontFamily: 'SF Pro Display',
+        ),
+        home: MainScreen(),
       ),
-      home: MainScreen(),
     );
   }
 }
-
-
 
 class MainScreen extends StatefulWidget {
   @override
