@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/models/grievance.dart';
+import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
-import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
   const GrievanceHistoryScreen({Key? key}) : super(key: key);
@@ -14,12 +16,26 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   bool showPending = true;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final grievanceProvider = Provider.of<GrievanceProvider>(context);
+    final grievances = showPending
+        ? grievanceProvider.receivedGrievancesList
+        : grievanceProvider.closedGrievancesList;
+
     return Scaffold(
       body: Column(
         children: [
+          // Tab buttons for filtering grievances
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               children: [
                 _buildTabButton('Pending', showPending),
@@ -28,31 +44,24 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
               ],
             ),
           ),
+          // List of grievances
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                _buildGrievanceCard(
-                  'Title',
-                  'Simple description',
-                  'Tuesday, 10:00am',
-                  'Received',
-                ),
-                const SizedBox(height: 12),
-                _buildGrievanceCard(
-                  'Title',
-                  'Simple description',
-                  'Tuesday, 10:00am',
-                  'In Progress',
-                ),
-              ],
-            ),
+            child: grievances.isEmpty
+                ? const Center(child: Text('No grievances found.'))
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: grievances.length,
+                    itemBuilder: (context, index) {
+                      return _buildGrievanceCard(grievances[index]);
+                    },
+                  ),
           ),
         ],
       ),
     );
   }
 
+  // Tab button widget
   Widget _buildTabButton(String text, bool isSelected) {
     return Expanded(
       child: TextButton(
@@ -80,18 +89,15 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     );
   }
 
-  Widget _buildGrievanceCard(
-    String title,
-    String description,
-    String dueDate,
-    String status,
-  ) {
+  // Grievance card widget
+  Widget _buildGrievanceCard(Grievance grievance) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          // MaterialPageRoute(builder: (context) => const GrievanceDetailsPage()),
+          MaterialPageRoute(
+            builder: (context) => GrievanceDetailsPage(grievance: grievance),
+          ),
         );
       },
       child: Card(
@@ -105,7 +111,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                grievance.title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -113,7 +119,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                description,
+                grievance.description,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -125,15 +131,15 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Due ',
                         style: TextStyle(
-                          color: Colors.grey[600],
+                          color: AppColors.black,
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        dueDate,
+                        grievance.dueDate.toString(),
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 14,
@@ -142,9 +148,11 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                     ],
                   ),
                   Text(
-                    status,
+                    grievance.status,
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color: grievance.status.toLowerCase() == 'pending'
+                          ? Colors.orange
+                          : Colors.green,
                       fontSize: 14,
                     ),
                   ),
