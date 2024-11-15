@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
+import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
@@ -61,7 +62,8 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
           });
         },
         style: TextButton.styleFrom(
-          backgroundColor: isSelected ? AppColors.primaryColor : Colors.grey[300],
+          backgroundColor:
+              isSelected ? AppColors.primaryColor : Colors.grey[300],
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -85,10 +87,11 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     String status,
   ) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GrievanceDetailsPage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
+          // MaterialPageRoute(builder: (context) => const GrievanceDetailsPage()),
         );
       },
       child: Card(

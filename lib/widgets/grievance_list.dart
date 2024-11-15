@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/models/grievance.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +20,14 @@ class _GrievanceListState extends State<GrievanceList> {
     });
   }
 
-  Widget _buildGrievanceItem(
-      BuildContext context, int grievanceID, String title, String description) {
+  Widget _buildGrievanceItem(BuildContext context, Grievance grievance) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => GrievanceDetailsPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    GrievanceDetailsPage(grievance: grievance)));
       },
       child: Container(
         padding: EdgeInsets.all(16),
@@ -41,13 +44,13 @@ class _GrievanceListState extends State<GrievanceList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    grievance.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
-                    description,
+                    grievance.description,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,
@@ -96,9 +99,7 @@ class _GrievanceListState extends State<GrievanceList> {
           itemBuilder: (context, index) {
             return _buildGrievanceItem(
               context,
-              grievances[index].id,
-              grievances[index].title,
-              grievances[index].description,
+              grievances[index],
             );
           },
         ),

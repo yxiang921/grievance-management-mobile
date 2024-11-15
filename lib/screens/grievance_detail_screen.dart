@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/models/grievance.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
 class GrievanceDetailsPage extends StatelessWidget {
-  const GrievanceDetailsPage({Key? key}) : super(key: key);
+  final Grievance grievance;
+
+  const GrievanceDetailsPage({Key? key, required this.grievance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +37,13 @@ class GrievanceDetailsPage extends StatelessWidget {
                     ),
                   ),
 
-                  // Main Grievance Content
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Title',
+                          grievance.title,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -48,15 +51,33 @@ class GrievanceDetailsPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'Grievance ID',
+                          'Grievance ID: ' + grievance.id.toString(),
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontSize: 16,
                           ),
                         ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Status: ' + grievance.status,
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        grievance.location == null
+                            ? SizedBox(height: 0)
+                            : Text(
+                                'Location:' + grievance.location!,
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
                         SizedBox(height: 16),
                         Text(
-                          'The best of all 3 worlds, Row & Flow offers high intensity rowing and strength intervals followed by athletic based yoga sure to enhance flexible and clear the mind.',
+                          grievance.description,
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 16,

@@ -27,4 +27,21 @@ class ApiService {
       throw Exception('Error fetching grievances: $error');
     }
   }
+
+  Future<Grievance> fetchGrievanceByID(String grievanceID) async {
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/showGrievanceDetails/$grievanceID'));
+
+      if (response.statusCode == 200) {
+        final grievanceJson = jsonDecode(response.body);
+
+        return Grievance.fromJson(grievanceJson);
+      } else {
+        throw Exception('Failed to load grievance');
+      }
+    } catch (error) {
+      throw Exception('Error fetching grievance: $error');
+    }
+  }
 }
