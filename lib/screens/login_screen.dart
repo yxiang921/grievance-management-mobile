@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/main.dart';
+import 'package:grievance_mobile/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -34,16 +36,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success) {
       final userInfo = await _authService.getUserInfo();
       if (userInfo != null) {
-        final storage = FlutterSecureStorage();
-        await storage.write(key: 'user', value: json.encode(userInfo));
+        final username = userInfo['name'] ?? 'User';
+
+        Provider.of<UserProvider>(context, listen: false).setUsername(username);
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainScreen(userInfo: userInfo)),
+          MaterialPageRoute(
+              builder: (context) => MainScreen(userInfo: userInfo)),
         );
       }
-
-      print("Login successful");
     } else {
       print("Login failed");
       ScaffoldMessenger.of(context).showSnackBar(

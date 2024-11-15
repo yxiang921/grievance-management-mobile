@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
+import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
 import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
@@ -25,7 +26,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => GrievanceProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => GrievanceProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
       child: MaterialApp(
         title: 'FLT GMS',
         debugShowCheckedModeBanner: false,
