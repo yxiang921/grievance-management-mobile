@@ -12,6 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<UserProvider>(context, listen: false).loadUserInfo();
+    });
+  }
+
   Widget _buildStatsCard(String number, String label, Color color) {
     return Container(
       padding: EdgeInsets.all(16),
@@ -118,8 +126,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final String username = Provider.of<UserProvider>(context).username;
+    final String avatarUrl = Provider.of<UserProvider>(context).avatarUrl;
 
-    final String username = Provider.of<UserProvider>(context).username ?? '';
+    print('avatar url: $avatarUrl');
+    print('username: $username');
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -137,10 +148,17 @@ class _HomePageState extends State<HomePage> {
                     CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.grey[200],
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                        color: Colors.grey[600],
+                      child: ClipOval(
+                        child: Image.network(
+                          avatarUrl,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.account_circle,
+                                size: 60, color: Colors.grey);
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(width: 16),

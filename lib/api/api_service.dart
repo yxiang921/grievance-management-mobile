@@ -6,8 +6,11 @@ class ApiService {
   final String baseUrl = 'http://127.0.0.1:8000/api';
 
   Future<List<Grievance>> fetchGrievances() async {
+    const String userId = '1';
+
     try {
-      final response = await http.get(Uri.parse('$baseUrl/grievance/showGrievance'));
+      final response =
+          await http.get(Uri.parse('$baseUrl/grievance/showGrievance/$userId'));
 
       if (response.statusCode == 200) {
         final List<dynamic> grievanceJson = jsonDecode(response.body);

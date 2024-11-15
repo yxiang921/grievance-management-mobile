@@ -34,9 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success) {
       final userInfo = await _authService.getUserInfo();
       if (userInfo != null) {
-        final username = userInfo['name'] ?? 'User';
+        print(userInfo['avatar']);
 
-        Provider.of<UserProvider>(context, listen: false).setUsername(username);
+        Provider.of<UserProvider>(context, listen: false).setUserInfo(
+          userInfo['avatar'],
+          userInfo['username'],
+        );
 
         Navigator.pushReplacement(
           context,
