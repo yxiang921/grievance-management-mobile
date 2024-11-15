@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import '../models/grievance.dart';
 
 class ApiService {
   final String baseUrl = 'http://127.0.0.1:8000/api';
+  final _storage = FlutterSecureStorage();
 
   Future<List<Grievance>> fetchGrievances() async {
-    const String userId = '1';
+    final userId = await _storage.read(key: 'userID');
+
+    print("fetching grievances for user: $userId");
 
     try {
       final response =

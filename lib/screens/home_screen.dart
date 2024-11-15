@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).loadUserInfo();
+      Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
     });
   }
 
@@ -58,7 +60,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildGrievanceItem(BuildContext context) {
+  Widget _buildGrievanceItem(
+      BuildContext context, int grievanceID, String title, String description) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
@@ -79,13 +82,13 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Grievance Title',
+                    title,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
-                    'Here is the longer description of the grievance.',
+                    description,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,
@@ -128,9 +131,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final String username = Provider.of<UserProvider>(context).username;
     final String avatarUrl = Provider.of<UserProvider>(context).avatarUrl;
-    final String email = Provider.of<UserProvider>(context).email;
-
-    print('Username: $username, Avatar: $avatarUrl, Email123: $email');
+    final grievances = Provider.of<GrievanceProvider>(context).grievances;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -240,8 +241,18 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      _buildGrievanceItem(context),
-                      _buildGrievanceItem(context),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: grievances.length,
+                        itemBuilder: (context, index) {
+                          return _buildGrievanceItem(
+                            context,
+                            grievances[index].id,
+                            grievances[index].title,
+                            grievances[index].description,
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

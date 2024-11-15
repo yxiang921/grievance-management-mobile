@@ -59,12 +59,17 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // List of pages to show for each bottom navigation item
   final List<Widget> _pages = [
     HomePage(),
     GrievanceHistoryScreen(),
     ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
