@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/widgets/grievance_list.dart';
 import 'package:grievance_mobile/widgets/monthly_report.dart';
@@ -60,6 +61,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final receivedCount =
+        Provider.of<GrievanceProvider>(context).receivedGrievances;
+    final inProgressCount =
+        Provider.of<GrievanceProvider>(context).inProgressGrievances;
+    final closedCount =
+        Provider.of<GrievanceProvider>(context).closedGrievances;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -124,16 +132,18 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: _buildStatsCard('16', 'Received', Colors.black),
+                      child: _buildStatsCard(
+                          '$receivedCount', 'Received', Colors.black),
                     ),
                     SizedBox(width: 12),
                     Expanded(
-                      child:
-                          _buildStatsCard('16', 'In-progress', Colors.orange),
+                      child: _buildStatsCard(
+                          '$inProgressCount', 'In-progress', Colors.orange),
                     ),
                     SizedBox(width: 12),
                     Expanded(
-                      child: _buildStatsCard('16', 'Completed', Colors.teal),
+                      child: _buildStatsCard(
+                          '$closedCount', 'Closed', Colors.teal),
                     ),
                   ],
                 ),
@@ -169,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  child: const MonthlyReport(),
+                  // child: const MonthlyReport(),
                 ),
               ),
             ],

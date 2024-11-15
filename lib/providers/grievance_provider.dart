@@ -9,6 +9,23 @@ class GrievanceProvider with ChangeNotifier {
 
   List<Grievance> get grievances => _grievances;
 
+  int get receivedGrievances {
+    return _grievances
+        .where((grievance) => grievance.status.toLowerCase() == 'received')
+        .length;
+  }
+
+  int get inProgressGrievances{
+    return _grievances
+        .where((grievance) => grievance.status.toLowerCase() == 'in progress')
+        .length;
+  }
+
+  int get closedGrievances {
+    return _grievances
+        .where((grievance) => grievance.status.toLowerCase() == 'closed')
+        .length;
+  }
 
   Future<void> loadGrievances() async {
     try {

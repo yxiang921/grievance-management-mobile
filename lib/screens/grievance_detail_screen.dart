@@ -89,26 +89,26 @@ class GrievanceDetailsPage extends StatelessWidget {
                   ),
 
                   // Recent Grievances Section
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Other Recent Grievances',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        _buildGrievanceCard(),
-                        SizedBox(height: 12),
-                        _buildGrievanceCard(),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(16.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text(
+                  //         'Other Recent Grievances',
+                  //         style: TextStyle(
+                  //           fontSize: 18,
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Colors.grey[600],
+                  //         ),
+                  //       ),
+                  //       SizedBox(height: 16),
+                  //       _buildGrievanceCard(),
+                  //       SizedBox(height: 12),
+                  //       _buildGrievanceCard(),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
