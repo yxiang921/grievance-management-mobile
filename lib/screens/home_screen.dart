@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/screens/grievance_detail_screen.dart';
-import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
