@@ -44,4 +44,32 @@ class ApiService {
       throw Exception('Error fetching grievance: $error');
     }
   }
+
+  Future<void> submitGrievance(
+    String title,
+    String description,
+    String? location,
+  ) async {
+    final userId = await _storage.read(key: 'userID');
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/grievance/add'),
+        body: {
+          'title': title,
+          'description': description,
+          'location': location,
+          'userID': userId,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Grievance submitted successfully');
+      } else {
+        throw Exception('Failed to submit grievance');
+      }
+    } catch (error) {
+      throw Exception('Error submitting grievance: $error');
+    }
+  }
 }

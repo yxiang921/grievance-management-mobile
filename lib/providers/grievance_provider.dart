@@ -1,7 +1,13 @@
 // lib/providers/grievance_provider.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
 import '../api/api_service.dart';
 import '../models/grievance.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class GrievanceProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
@@ -39,6 +45,19 @@ class GrievanceProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print('Failed to load grievances: $error');
+    }
+  }
+
+  Future<void> submitGrievance(
+    String title,
+    String description,
+    String? location,
+  ) async {
+    try {
+      await _apiService.submitGrievance(title, description, location);
+      await loadGrievances();
+    } catch (error) {
+      print('Failed to submit grievance: $error');
     }
   }
 }

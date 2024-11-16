@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: widget.isLoggedIn ? MainScreen() : LoginScreen(),
+        home: widget.isLoggedIn ? SubmitGrievancePage() : LoginScreen(),
       ),
     );
   }
