@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import '../models/grievance.dart';
@@ -49,6 +50,7 @@ class ApiService {
     String title,
     String description,
     String? location,
+    // File? image,
   ) async {
     final userId = await _storage.read(key: 'userID');
 
@@ -62,6 +64,7 @@ class ApiService {
           'userID': userId,
         },
       );
+
 
       if (response.statusCode == 200) {
         print('Grievance submitted successfully');

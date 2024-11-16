@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:html' as html;
 import 'package:http/http.dart' as http;
 
 class SubmitGrievancePage extends StatefulWidget {
@@ -15,6 +18,7 @@ class SubmitGrievancePage extends StatefulWidget {
 }
 
 class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
+  String? _imageUrl;
   Uint8List? _imageBytes;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _titleController = TextEditingController();
@@ -37,19 +41,79 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
     setState(() {});
   }
 
-  _submitGrievance() {
-    print("Submit Clicked");
+  Future<void> pickImage() async {
+    var imagePicker = ImagePicker();
+    XFile? image;
+
+    image = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      _imageUrl = image.path;
+      print('Image path: $_imageUrl');
+      setState(() {});
+
+      // uploadImage(image);
+    }
+  }
+
+  Future<void> uploadImage(XFile image) async {
+    final uri = Uri.parse('http://localhost:8000/api/grievance/add');
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['userID'] = '1';
+    request.fields['title'] = 'Grievance Title';
+    request.fields['description'] = 'Grievance Description';
+    request.fields['location'] = 'Location of the grievance';
+
+    final bytes = await image.readAsBytes();
+
+    print('Image size: ${bytes.lengthInBytes} bytes');
+
+    final file =
+        http.MultipartFile.fromBytes('image', bytes, filename: image.name);
+    request.files.add(file);
+
+    print('Request URL: ${uri.toString()}');
+    print('Fields: ${request.fields}');
+
+    var response = await request.send();
+
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Image uploaded successfully');
+    } else {
+      print('Failed to upload image: ${response.statusCode}');
+      final responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+    }
+  }
+
+  Future<void> _submitGrievance() async {
     final title = _titleController.text;
     final description = _descriptionController.text;
     final location = _locationController.text;
 
-    if (title.isEmpty || description.isEmpty) {
-      return;
+    if (title.isNotEmpty && description.isNotEmpty) {
+      try {
+        await grievanceProvider.addGrievance(
+          title,
+          description,
+          location,
+          _imageUrl,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Grievance submitted successfully')),
+        );
+        Navigator.pop(context);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to submit grievance: $e')),
+        );
+      }
     } else {
-      grievanceProvider.submitGrievance(
-        title,
-        description,
-        location,
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Title and description cannot be empty')),
       );
     }
   }
@@ -59,18 +123,16 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
-        foregroundColor: AppColors.white,
-        elevation: 0,
+        title: const Text('Submit Grievance',
+            style: TextStyle(
+              color: AppColors.white,
+            )),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Submit Grievance',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+          icon: const Icon(
+            Icons.arrow_back,
+            color: AppColors.white,
           ),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -79,145 +141,73 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 'Hello, $username',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Please fill in the details below to submit your grievance.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16),
-              Container(
-                decoration: _buildInputDecoration(),
-                child: TextFormField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: AppColors.primaryColor, width: 2.0),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the title';
-                    }
-                    return null;
-                  },
+              const SizedBox(height: 16),
+              TextField(
+                controller: _descriptionController,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16),
-              Container(
-                decoration: _buildInputDecoration(),
-                child: TextField(
-                  controller: _descriptionController,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: AppColors.primaryColor, width: 2.0),
-                    ),
-                    hintText: 'Enter your grievance details here...',
-                  ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _locationController,
+                decoration: const InputDecoration(
+                  labelText: 'Location (Optional)',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16),
-              Container(
-                decoration: _buildInputDecoration(),
-                child: TextFormField(
-                  controller: _locationController,
-                  decoration: const InputDecoration(
-                    labelText: 'Location (Optional)',
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: AppColors.primaryColor, width: 2.0),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey[300]!),
+                  border: Border.all(color: Colors.grey),
                 ),
-                child: _imageBytes != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.memory(
-                          _imageBytes!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      )
-                    : Image.network(
-                        'https://via.placeholder.com/400x20',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
+                child: _imageUrl != null
+                    ? Image.network(_imageUrl!)
+                    : const Center(
+                        child: Text('No image selected'),
                       ),
               ),
-              SizedBox(height: 16),
-              InkWell(
-                // onTap: _pickImage,
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey[300]!),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera_alt, color: AppColors.primaryColor),
-                      SizedBox(width: 8),
-                      Text(
-                        'Upload File or Screenshot',
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  _submitGrievance();
-                },
-                child: Text('Submit Grievance'),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: pickImage,
+                icon: const Icon(Icons.image),
+                label: const Text('Upload Image'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _submitGrievance,
+                child: const Text('Submit Grievance'),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  BoxDecoration _buildInputDecoration() {
-    return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: Colors.grey[300]!),
     );
   }
 }

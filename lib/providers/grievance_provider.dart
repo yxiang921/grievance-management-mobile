@@ -48,16 +48,13 @@ class GrievanceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> submitGrievance(
-    String title,
-    String description,
-    String? location,
-  ) async {
+  Future<void> addGrievance(
+      String title, String description, String location, String? image) async {
     try {
       await _apiService.submitGrievance(title, description, location);
       await loadGrievances();
     } catch (error) {
-      print('Failed to submit grievance: $error');
+      print('Failed to add grievance: $error');
     }
   }
 }
