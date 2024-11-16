@@ -16,6 +16,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String _userID = '';
   String _phone_number = '';
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -135,50 +137,59 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      print("save profile clicked");
-                      final updated =
-                          await context.read<UserProvider>().updateProfile(
-                                _userID,
-                                _nameController.text,
-                                _usernameController.text,
-                                _emailController.text,
-                                _phone_number,
-                                _passwordController.text,
-                              );
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        print("save profile clicked");
+                        _isLoading = true;
+                        final updated =
+                            await context.read<UserProvider>().updateProfile(
+                                  _userID,
+                                  _nameController.text,
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  _phone_number,
+                                  _passwordController.text,
+                                );
 
-                      if (updated) {
-                        print("profile updated");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Profile updated successfully')),
-                        );
-                      } else {
-                        print("error updating profile");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Error updating profile')),
-                        );
+                        if (updated) {
+                          print("profile updated");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Profile updated successfully')),
+                          );
+
+                          _isLoading = false;
+                          Navigator.pop(context);
+                        } else {
+                          print("error updating profile");
+
+                          _isLoading = false;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Error updating profile')),
+                          );
+                        }
                       }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF5B42F3),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF5B42F3),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Save Profile',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            ),
+                          )
+                        : const Text(
+                            'Save',
+                            style: TextStyle(color: Colors.white),
+                          )),
               ),
             ],
           ),
