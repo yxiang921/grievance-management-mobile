@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:grievance_mobile/api/auth_service.dart';
+import 'package:grievance_mobile/screens/edit_profile_screen.dart';
+import 'package:grievance_mobile/screens/login_screen.dart';
+import 'package:grievance_mobile/widgets/edit_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -8,8 +13,26 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  bool _isAnonymous = false;
+  String _avatarUrl = '';
+  String _username = '';
+  String _email = '';
+
+  AuthService authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeProfile();
+  }
+
+  Future<void> _initializeProfile() async {
+    _avatarUrl = await _storage.read(key: 'avatar') ?? '';
+    _username = await _storage.read(key: 'username') ?? '';
+    _email = await _storage.read(key: 'email') ?? '';
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +56,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ClipOval(
                     child: Image.network(
-                      'https://picsum.photos/200', // Replace with actual image
+                      _avatarUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
                 // Name
-                const Text(
-                  'Andrea Davis',
-                  style: TextStyle(
+                Text(
+                  _username,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 // Email
-                const Text(
-                  'andrea@domainname.com',
+                Text(
+                  _email,
                   style: TextStyle(
                     fontSize: 14,
                   ),
@@ -75,24 +98,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         offset: const Offset(0, 2),
                       ),
                     ],
-                  ),
-                  child: ListTile(
-                    title: const Text(
-                      'Anonymous',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _isAnonymous,
-                      onChanged: (value) {
-                        setState(() {
-                          _isAnonymous = value;
-                        });
-                      },
-                      activeColor: const Color(0xFF5B42F3),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -123,7 +128,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.grey,
                     ),
                     onTap: () {
-                      // TODO: Navigate to edit profile
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                      );
                     },
                   ),
                 ),
@@ -141,23 +149,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  child: ListTile(
-                    title: const Text(
-                      'Account Settings',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                    onTap: () {
-                      // TODO: Navigate to account settings
-                    },
-                  ),
                 ),
                 const SizedBox(height: 24),
                 // Log Out Button
@@ -165,7 +156,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: double.infinity,
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Implement logout
+                      authService.logout();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
