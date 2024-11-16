@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import '../api/api_service.dart';
 import '../models/grievance.dart';
@@ -49,9 +50,9 @@ class GrievanceProvider with ChangeNotifier {
   }
 
   Future<void> addGrievance(
-      String title, String description, String location, String? image) async {
+      String title, String description, String? location, XFile? image) async {
     try {
-      await _apiService.submitGrievance(title, description, location);
+      await _apiService.uploadGrievance(title, description, location, image);
       await loadGrievances();
     } catch (error) {
       print('Failed to add grievance: $error');

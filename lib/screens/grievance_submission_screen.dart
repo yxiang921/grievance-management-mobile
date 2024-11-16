@@ -20,6 +20,7 @@ class SubmitGrievancePage extends StatefulWidget {
 class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   String? _imageUrl;
   Uint8List? _imageBytes;
+  XFile? image;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -43,49 +44,13 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
 
   Future<void> pickImage() async {
     var imagePicker = ImagePicker();
-    XFile? image;
 
     image = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      _imageUrl = image.path;
+      _imageUrl = image?.path;
       print('Image path: $_imageUrl');
       setState(() {});
-
-      // uploadImage(image);
-    }
-  }
-
-  Future<void> uploadImage(XFile image) async {
-    final uri = Uri.parse('http://localhost:8000/api/grievance/add');
-    var request = http.MultipartRequest('POST', uri);
-
-    request.fields['userID'] = '1';
-    request.fields['title'] = 'Grievance Title';
-    request.fields['description'] = 'Grievance Description';
-    request.fields['location'] = 'Location of the grievance';
-
-    final bytes = await image.readAsBytes();
-
-    print('Image size: ${bytes.lengthInBytes} bytes');
-
-    final file =
-        http.MultipartFile.fromBytes('image', bytes, filename: image.name);
-    request.files.add(file);
-
-    print('Request URL: ${uri.toString()}');
-    print('Fields: ${request.fields}');
-
-    var response = await request.send();
-
-    print('Response status: ${response.statusCode}');
-
-    if (response.statusCode == 200) {
-      print('Image uploaded successfully');
-    } else {
-      print('Failed to upload image: ${response.statusCode}');
-      final responseBody = await response.stream.bytesToString();
-      print('Response body: $responseBody');
     }
   }
 
@@ -100,7 +65,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           title,
           description,
           location,
-          _imageUrl,
+          image,
         );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Grievance submitted successfully')),

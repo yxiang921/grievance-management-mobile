@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import '../models/grievance.dart';
 
 class ApiService {
@@ -46,33 +47,41 @@ class ApiService {
     }
   }
 
-  Future<void> submitGrievance(
-    String title,
-    String description,
-    String? location,
-    // File? image,
-  ) async {
-    final userId = await _storage.read(key: 'userID');
+  Future<void> uploadGrievance(
+      String title, String description, String? location, XFile? image) async {
+    final uri = Uri.parse('$baseUrl/grievance/add');
+    var request = http.MultipartRequest('POST', uri);
 
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/grievance/add'),
-        body: {
-          'title': title,
-          'description': description,
-          'location': location,
-          'userID': userId,
-        },
-      );
+    final userID = await _storage.read(key: 'userID');
 
+    request.fields['userID'] = userID.toString();
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['location'] = location ?? '';
 
-      if (response.statusCode == 200) {
-        print('Grievance submitted successfully');
-      } else {
-        throw Exception('Failed to submit grievance');
-      }
-    } catch (error) {
-      throw Exception('Error submitting grievance: $error');
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+
+      print('Image size: ${bytes.lengthInBytes} bytes');
+
+      final file = http.MultipartFile.fromBytes('image', bytes,
+          filename: image.name);
+      request.files.add(file);
+    }
+
+    print('Request URL: ${uri.toString()}');
+    print('Fields: ${request.fields}');
+
+    var response = await request.send();
+
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Grievance uploaded successfully');
+    } else {
+      print('Failed to upload grievance: ${response.statusCode}');
+      final responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
     }
   }
 }
