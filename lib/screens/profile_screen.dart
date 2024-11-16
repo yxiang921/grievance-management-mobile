@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/screens/edit_profile_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
-import 'package:grievance_mobile/widgets/edit_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

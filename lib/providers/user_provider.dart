@@ -36,7 +36,7 @@ class UserProvider extends ChangeNotifier {
   Future<bool> updateProfile(String userID, String name, String username,
       String email, String phone_number, String password) async {
     final url =
-        'http://localhost:8000/api/auth/edit'; // Replace with your actual API endpoint
+        'http://localhost:8000/api/auth/edit';
 
     final response = await http.post(
       Uri.parse(url),
@@ -46,19 +46,17 @@ class UserProvider extends ChangeNotifier {
         'name': name,
         'username': username,
         'email': email,
-        'password': password, // Ensure the password is hashed on the server
+        'password': password,
         'phone_number':
-            phone_number, // Add phone number or replace with a form field
+            phone_number,
       }),
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      // You can update the user data in the local storage if needed
-      setUserInfo(userID!, email, _avatarUrl, username);
-      return true; // Profile updated successfully
+      setUserInfo(userID, email, _avatarUrl, username);
+      return true;
     } else {
-      return false; // Error occurred
+      return false;
     }
   }
 

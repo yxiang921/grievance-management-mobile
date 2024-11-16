@@ -1,14 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:html' as html;
-import 'package:http/http.dart' as http;
 
 class SubmitGrievancePage extends StatefulWidget {
   const SubmitGrievancePage({Key? key}) : super(key: key);
