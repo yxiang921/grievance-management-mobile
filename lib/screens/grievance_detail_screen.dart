@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/api/constant.dart';
 import 'package:grievance_mobile/models/grievance.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
@@ -10,7 +11,11 @@ class GrievanceDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(grievance.grievanceImage);
+    String imageUrl = grievance.grievanceImage == null
+        ? '${APIConstant.BASE_URL}/images/no_image_placeholder.png'
+        : '${APIConstant.BASE_URL}/${grievance.grievanceImage}';
+    print('Image URL: $imageUrl');
+
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.white,
@@ -29,13 +34,7 @@ class GrievanceDetailsPage extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: 
-                        grievance.grievanceImage == null ?
-                        NetworkImage(
-                          'https://picsum.photos/400/200',
-                        ) : NetworkImage(
-                          'http://localhost:8000/images/1731750980.png'
-                        ),
+                        image: NetworkImage(imageUrl),
                         fit: BoxFit.cover,
                       ),
                     ),
