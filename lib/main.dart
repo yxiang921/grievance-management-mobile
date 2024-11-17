@@ -8,6 +8,7 @@ import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
+import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: widget.isLoggedIn ? MainScreen() : LoginScreen(),
+        home: widget.isLoggedIn ? MainScreen() : RegisterScreen(),
       ),
     );
   }

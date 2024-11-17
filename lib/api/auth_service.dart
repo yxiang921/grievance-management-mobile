@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
-  final String baseUrl = 'http://127.0.0.1:8000/api';
+  // final String baseUrl = 'http://10.0.2.2:8000/api';
+  final String baseUrl = 'http://localhost:8000/api';
   final storage = FlutterSecureStorage();
 
   Future<bool> login(String email, String password) async {
@@ -17,6 +18,36 @@ class AuthService {
       final data = json.decode(response.body);
       final token = data['token'];
       await storage.write(key: 'authToken', value: token);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> register(
+    String fullname,
+    String username,
+    String phone,
+    String email,
+    String password,
+  ) async {
+    print("register service called");
+    print("data: $username, $fullname, $email, $phone, $password");
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/auth/register'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': fullname,
+        'username': username,
+        'phone_number': phone,
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("register successful");
       return true;
     } else {
       return false;

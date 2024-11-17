@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/main.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
+import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -211,7 +212,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // TODO: Navigate to sign up screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RegisterScreen()),
+                          );
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
