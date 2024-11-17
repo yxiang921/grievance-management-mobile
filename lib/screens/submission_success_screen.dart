@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:grievance_mobile/main.dart';
+import 'package:grievance_mobile/models/grievance.dart';
+import 'package:grievance_mobile/utils/colors.dart';
 
 class ReceiptDetailsPage extends StatelessWidget {
-  const ReceiptDetailsPage({Key? key}) : super(key: key);
+  Grievance grievance;
+  ReceiptDetailsPage({Key? key, required this.grievance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: AppColors.primaryColor,
+        title: const Text('Submit Grievance',
+            style: TextStyle(
+              color: AppColors.white,
+            )),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Receipt Details',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+          icon: const Icon(
+            Icons.arrow_back,
+            color: AppColors.white,
           ),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -40,7 +42,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: Colors.teal[200],
+                      color: AppColors.success,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -50,7 +52,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  
+
                   Text(
                     'Submission Success',
                     style: TextStyle(
@@ -59,77 +61,40 @@ class ReceiptDetailsPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 24),
-                  
+
                   // Grievance Details
-                  _buildDetailRow('Grievance ID:', 'ID4'),
+                  _buildDetailRow('Grievance ID:', grievance.id.toString()),
                   Divider(height: 24),
-                  
-                  _buildDetailRow('Title:', 'The aircon was broken'),
+
+                  _buildDetailRow('Title:', grievance.title),
                   Divider(height: 24),
-                  
-                  _buildDetailRow('Category:', 'Facility Issue'),
+
+                  _buildDetailRow(
+                      'Description:',
+                      grievance.description.length > 30
+                          ? '${grievance.description.substring(0, 30)}...'
+                          : grievance.description),
                   Divider(height: 24),
-                  
-                  // Venue with multiple lines
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Venue',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        '459 West Hollywood Blvd. Los Angeles\nCalifornia, 98201',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(height: 24),
-                  
-                  // Specialist Section
+
+                  grievance.location != null
+                      ? _buildDetailRow('Location:', grievance.location!)
+                      : SizedBox(),
+
                   Column(
                     children: [
-                      Text(
-                        'Specialist:',
+                      const Text(
+                        'Thanks for submitting your grievance. We will review it and get back to you soon.',
                         style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Admin A',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'adminA@admin.com',
-                        style: TextStyle(
-                          color: Colors.blue[700],
+                          color: AppColors.primaryColor,
                           fontSize: 14,
                         ),
                       ),
                       SizedBox(height: 16),
-                      
-                      // Profile Images with Arrow
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildProfileAvatar('https://via.placeholder.com/40'),
-                          SizedBox(width: 16),
-                          Icon(Icons.arrow_forward, color: Colors.grey),
-                          SizedBox(width: 16),
-                          _buildProfileAvatar('https://via.placeholder.com/40'),
-                        ],
+                      BackButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainScreen())),
                       ),
                     ],
                   ),
@@ -171,7 +136,7 @@ class ReceiptDetailsPage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: Colors.blue[700]!,
+          color: AppColors.primaryColor!,
           width: 2,
         ),
         image: DecorationImage(

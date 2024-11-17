@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/main.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
+import 'package:grievance_mobile/screens/submission_success_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -25,6 +26,8 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   final _storage = FlutterSecureStorage();
 
   String? username;
+
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -54,6 +57,10 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
     final description = _descriptionController.text;
     final location = _locationController.text;
 
+    setState(() {
+      _isLoading = true;
+    });
+
     if (title.isNotEmpty && description.isNotEmpty) {
       try {
         await grievanceProvider.addGrievance(
@@ -62,17 +69,15 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           location,
           image,
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Grievance submitted successfully',
-              style: TextStyle(color: AppColors.white),
-            ),
-            backgroundColor: AppColors.success,
-          ),
-        );
+
+        final grievance = grievanceProvider.grievances.last;
+
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainScreen()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => ReceiptDetailsPage(
+                      grievance: grievance,
+                    )));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to submit grievance: $e')),
@@ -83,6 +88,10 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
         const SnackBar(content: Text('Title and description cannot be empty')),
       );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -145,17 +154,12 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               const SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
                 height: 200,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: _imageUrl != null
-                    ? Image.network(_imageUrl!)
-                    : const Center(
-                        child: Text('No image selected'),
-                      ),
+                child:
+                    _imageUrl != null ? Image.network(_imageUrl!) : SizedBox(),
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
@@ -173,10 +177,18 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                   backgroundColor: AppColors.primaryColor,
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text(
-                  'Submit Grievance',
-                  style: TextStyle(color: AppColors.white),
-                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.white),
+                        ),
+                      )
+                    : const Text(
+                        'Submit Grievance',
+                        style: TextStyle(color: AppColors.white),
+                      ),
               ),
             ],
           ),

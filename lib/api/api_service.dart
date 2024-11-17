@@ -73,7 +73,6 @@ class ApiService {
 
     var response = await request.send();
 
-    print('Response status: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       print('Grievance uploaded successfully');
