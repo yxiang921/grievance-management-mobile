@@ -46,8 +46,8 @@ class ApiService {
     }
   }
 
-  Future<void> uploadGrievance(
-      String title, String description, String? location, XFile? image) async {
+  Future<void> uploadGrievance(String title, String description,
+      String? latitude, String? longitude, XFile? image) async {
     final uri = Uri.parse('$baseUrl/grievance/add');
     var request = http.MultipartRequest('POST', uri);
 
@@ -56,7 +56,8 @@ class ApiService {
     request.fields['userID'] = userID.toString();
     request.fields['title'] = title;
     request.fields['description'] = description;
-    request.fields['location'] = location ?? '';
+    request.fields['latitude'] = latitude ?? '';
+    request.fields['longitude'] = longitude ?? '';
 
     if (image != null) {
       final bytes = await image.readAsBytes();
@@ -72,7 +73,6 @@ class ApiService {
     print('Fields: ${request.fields}');
 
     var response = await request.send();
-
 
     if (response.statusCode == 200) {
       print('Grievance uploaded successfully');

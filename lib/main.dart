@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
+import 'package:grievance_mobile/providers/location_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
 import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
@@ -8,6 +9,7 @@ import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
+import 'package:grievance_mobile/widgets/location_picker.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +36,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => GrievanceProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: MaterialApp(
         title: 'FLT GMS',
@@ -43,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: widget.isLoggedIn ? MainScreen() : LoginScreen(),
+        home: widget.isLoggedIn ? SubmitGrievancePage() : LoginScreen(),
       ),
     );
   }
@@ -80,7 +83,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavBar(

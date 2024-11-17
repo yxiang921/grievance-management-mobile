@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
+import 'package:grievance_mobile/providers/location_provider.dart';
 import 'package:grievance_mobile/screens/submission_success_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
+import 'package:grievance_mobile/widgets/location_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class SubmitGrievancePage extends StatefulWidget {
   const SubmitGrievancePage({Key? key}) : super(key: key);
@@ -17,7 +20,6 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   XFile? image;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
 
   final grievanceProvider = GrievanceProvider();
   final _storage = FlutterSecureStorage();
@@ -52,7 +54,13 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   Future<void> _submitGrievance() async {
     final title = _titleController.text;
     final description = _descriptionController.text;
-    final location = _locationController.text;
+
+
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+
+    String longitude = locationProvider.longitude.toString();
+    String latitude = locationProvider.latitude.toString();
+
 
     setState(() {
       _isLoading = true;
@@ -63,7 +71,8 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
         await grievanceProvider.addGrievance(
           title,
           description,
-          location,
+          latitude.toString(),
+          longitude.toString(),
           image,
         );
 
@@ -143,17 +152,13 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
                 ),
               ),
               const SizedBox(height: 16),
-              TextField(
-                controller: _locationController,
-                decoration: const InputDecoration(
-                  labelText: 'Location (Optional)',
-                  border: OutlineInputBorder(),
-                ),
+              const Text(
+                "Point the location for facility grievance (optional)",
               ),
               const SizedBox(height: 16),
+              LocationPicker(),
               const SizedBox(height: 16),
               Container(
-                height: 200,
                 width: double.infinity,
                 child:
                     _imageUrl != null ? Image.network(_imageUrl!) : SizedBox(),
