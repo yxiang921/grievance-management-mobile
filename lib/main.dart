@@ -69,6 +69,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
+    Provider.of<UserProvider>(context, listen: false).loadUserInfo();
   }
 
   void _onItemTapped(int index) {
@@ -95,9 +96,12 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-                setState(() {
-                Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
-                });
+              setState(() {
+                Provider.of<GrievanceProvider>(context, listen: false)
+                    .loadGrievances();
+                Provider.of<UserProvider>(context, listen: false)
+                    .loadUserInfo();
+              });
             },
           ),
         ],

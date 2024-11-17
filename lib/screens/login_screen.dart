@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final userInfo = await _authService.getUserInfo();
       if (userInfo != null) {
 
-        Provider.of<UserProvider>(context, listen: false).setUserInfo(
+        await Provider.of<UserProvider>(context, listen: false).setUserInfo(
           userInfo['id'].toString(),
           userInfo['email'],
           userInfo['avatar'],
