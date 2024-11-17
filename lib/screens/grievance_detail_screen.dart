@@ -10,6 +10,7 @@ class GrievanceDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(grievance.grievanceImage);
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.white,
@@ -23,14 +24,17 @@ class GrievanceDetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Hero Image
                   Container(
                     height: 200,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(
+                        image: 
+                        grievance.grievanceImage == null ?
+                        NetworkImage(
                           'https://picsum.photos/400/200',
+                        ) : NetworkImage(
+                          'http://localhost:8000/images/1731750980.png'
                         ),
                         fit: BoxFit.cover,
                       ),

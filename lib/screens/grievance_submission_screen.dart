@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:grievance_mobile/main.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,7 +71,8 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
             backgroundColor: AppColors.success,
           ),
         );
-        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to submit grievance: $e')),

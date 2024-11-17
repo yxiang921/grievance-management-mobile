@@ -61,7 +61,6 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     );
   }
 
-  // Tab button widget
   Widget _buildTabButton(String text, bool isSelected) {
     return Expanded(
       child: TextButton(
@@ -89,7 +88,6 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     );
   }
 
-  // Grievance card widget
   Widget _buildGrievanceCard(Grievance grievance) {
     return GestureDetector(
       onTap: () {
@@ -131,20 +129,9 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        'Due ',
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        grievance.dueDate.toString(),
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14,
-                        ),
-                      ),
+                      grievance.dueDate != null
+                          ? Text("Due Date: ${grievance.dueDate}")
+                          : Text("This grievance doesn't assigned yet.")
                     ],
                   ),
                   Text(

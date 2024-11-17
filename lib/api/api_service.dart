@@ -63,8 +63,8 @@ class ApiService {
 
       print('Image size: ${bytes.lengthInBytes} bytes');
 
-      final file = http.MultipartFile.fromBytes('image', bytes,
-          filename: image.name);
+      final file =
+          http.MultipartFile.fromBytes('image', bytes, filename: image.name);
       request.files.add(file);
     }
 
