@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
@@ -14,9 +15,7 @@ class SubmitGrievancePage extends StatefulWidget {
 
 class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   String? _imageUrl;
-  Uint8List? _imageBytes;
   XFile? image;
-  final ImagePicker _picker = ImagePicker();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -162,7 +161,14 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitGrievance,
-                child: const Text('Submit Grievance'),
+                
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: const Text('Submit Grievance', style: TextStyle(
+                  color: AppColors.white
+                ),),
               ),
             ],
           ),

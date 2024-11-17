@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grievance_mobile/api/auth_service.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/providers/user_provider.dart';
-import 'package:grievance_mobile/screens/edit_profile_screen.dart';
 import 'package:grievance_mobile/screens/grievance_history_screen.dart';
 import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
-import 'package:grievance_mobile/screens/register_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +43,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'SF Pro Display',
         ),
-        home: widget.isLoggedIn ? MainScreen() : RegisterScreen(),
+        home: widget.isLoggedIn ? MainScreen() : LoginScreen(),
       ),
     );
   }
@@ -95,13 +93,11 @@ class _MainScreenState extends State<MainScreen> {
         foregroundColor: AppColors.white,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.refresh),
             onPressed: () {
-              authService.logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
+                setState(() {
+                Provider.of<GrievanceProvider>(context, listen: false).loadGrievances();
+                });
             },
           ),
         ],
