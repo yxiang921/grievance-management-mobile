@@ -62,7 +62,13 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           image,
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Grievance submitted successfully')),
+          const SnackBar(
+            content: Text(
+              'Grievance submitted successfully',
+              style: TextStyle(color: AppColors.white),
+            ),
+            backgroundColor: AppColors.success,
+          ),
         );
         Navigator.pop(context);
       } catch (e) {
@@ -161,14 +167,14 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitGrievance,
-                
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text('Submit Grievance', style: TextStyle(
-                  color: AppColors.white
-                ),),
+                child: const Text(
+                  'Submit Grievance',
+                  style: TextStyle(color: AppColors.white),
+                ),
               ),
             ],
           ),

@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -37,6 +38,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _register() async {
     print("register clicked");
+    setState(() {
+      _isLoading = true;
+    });
     bool registerSuccess = await _authService.register(
       _fullnameController.text,
       _usernameController.text,
@@ -46,7 +50,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     if (registerSuccess) {
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Registration successful! Please log in.'),
@@ -54,13 +57,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
 
-      Future.delayed(Duration(seconds: 3), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-        );
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -298,14 +303,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Create Account',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
+                              ),
+                            )
+                          : const Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),
