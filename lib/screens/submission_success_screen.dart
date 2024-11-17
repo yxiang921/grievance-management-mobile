@@ -4,7 +4,7 @@ import 'package:grievance_mobile/models/grievance.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 
 class ReceiptDetailsPage extends StatelessWidget {
-  Grievance grievance;
+  final Grievance grievance;
   ReceiptDetailsPage({Key? key, required this.grievance}) : super(key: key);
 
   @override

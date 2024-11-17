@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:grievance_mobile/main.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
 import 'package:grievance_mobile/screens/submission_success_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';

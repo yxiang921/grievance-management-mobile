@@ -7,7 +7,6 @@ import 'package:grievance_mobile/screens/grievance_submission_screen.dart';
 import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
-import 'package:grievance_mobile/screens/submission_success_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +80,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = AuthService();
 
     return Scaffold(
       body: _pages[_selectedIndex],
