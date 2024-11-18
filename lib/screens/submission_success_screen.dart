@@ -90,12 +90,14 @@ class ReceiptDetailsPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16),
-                      BackButton(
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainScreen())),
-                      ),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainScreen()));
+                          },
+                          icon: const Icon(Icons.home)),
                     ],
                   ),
                 ],

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:grievance_mobile/api/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import '../models/grievance.dart';
 
 class ApiService {
-  final String baseUrl = 'http://127.0.0.1:8000/api';
+  final String baseUrl = '${APIConstant.BASE_URL}/api';
   final _storage = FlutterSecureStorage();
 
   Future<List<Grievance>> fetchGrievances() async {

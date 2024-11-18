@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:grievance_mobile/api/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<bool> updateProfile(String userID, String name, String username,
       String email, String phone_number, String password) async {
-    final url =
-        'http://localhost:8000/api/auth/edit';
+    final url = '${APIConstant.BASE_URL}/api/auth/edit';
 
     final response = await http.post(
       Uri.parse(url),
@@ -47,8 +47,7 @@ class UserProvider extends ChangeNotifier {
         'username': username,
         'email': email,
         'password': password,
-        'phone_number':
-            phone_number,
+        'phone_number': phone_number,
       }),
     );
 
