@@ -151,6 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your username';
                       }
+                      return null;
                     },
                   ),
                   const SizedBox(height: 16),
@@ -176,6 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       } else if (value.length < 8) {
                         return 'Please enter a valid phone number';
                       }
+                      return null;
                     },
                   ),
                   const SizedBox(height: 16),
