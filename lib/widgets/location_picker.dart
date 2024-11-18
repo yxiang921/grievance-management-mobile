@@ -3,7 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:grievance_mobile/providers/location_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:latlong2/latlong.dart' as coordinates;
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 typedef Location = List<double> Function(dynamic data);

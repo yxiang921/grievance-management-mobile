@@ -9,7 +9,6 @@ import 'package:grievance_mobile/screens/home_screen.dart';
 import 'package:grievance_mobile/screens/login_screen.dart';
 import 'package:grievance_mobile/screens/profile_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
-import 'package:grievance_mobile/widgets/location_picker.dart';
 import 'package:grievance_mobile/widgets/navbar.dart';
 import 'package:provider/provider.dart';
 
