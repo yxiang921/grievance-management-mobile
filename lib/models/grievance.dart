@@ -16,6 +16,9 @@ class Grievance {
   final String? longitude;
   final int? departmentId;
   final int userId;
+
+  final String? assigned_at;
+  final String? closed_at;
   final String? createdAt;
   final String? updatedAt;
 
@@ -37,6 +40,8 @@ class Grievance {
     this.longitude,
     this.departmentId,
     required this.userId,
+    this.assigned_at,
+    this.closed_at,
     this.createdAt,
     this.updatedAt,
   });
@@ -60,6 +65,8 @@ class Grievance {
       longitude: json['longitude'],
       departmentId: json['department_id'],
       userId: json['user_id'],
+      assigned_at: json['assigned_at'],
+      closed_at: json['closed_at'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );

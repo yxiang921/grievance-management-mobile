@@ -20,6 +20,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   XFile? image;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   final grievanceProvider = GrievanceProvider();
   final _storage = FlutterSecureStorage();
@@ -55,12 +56,11 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
     final title = _titleController.text;
     final description = _descriptionController.text;
 
-
-    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
 
     String longitude = locationProvider.longitude.toString();
     String latitude = locationProvider.latitude.toString();
-
 
     setState(() {
       _isLoading = true;
@@ -153,10 +153,23 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               ),
               const SizedBox(height: 16),
               const Text(
-                "Point the location for facility grievance (optional)",
+                "Point the location and fill the location name for facility grievance (optional)",
               ),
               const SizedBox(height: 16),
-              LocationPicker(),
+              TextField(
+                controller: _locationController,
+                decoration: const InputDecoration(
+                  labelText: 'Location Name (Optional)',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (text) {
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 16),
+              _locationController.text != ''
+                  ? LocationPicker()
+                  : const SizedBox(),
               const SizedBox(height: 16),
               Container(
                 width: double.infinity,
