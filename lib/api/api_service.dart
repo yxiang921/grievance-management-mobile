@@ -47,7 +47,7 @@ class ApiService {
     }
   }
 
-  Future<void> uploadGrievance(String title, String description,
+  Future<void> uploadGrievance(String title, String description, String? location,
       String? latitude, String? longitude, XFile? image) async {
     final uri = Uri.parse('$baseUrl/grievance/add');
     var request = http.MultipartRequest('POST', uri);
@@ -57,6 +57,7 @@ class ApiService {
     request.fields['userID'] = userID.toString();
     request.fields['title'] = title;
     request.fields['description'] = description;
+    request.fields['location'] = location ?? '';
     request.fields['latitude'] = latitude ?? '';
     request.fields['longitude'] = longitude ?? '';
 

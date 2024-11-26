@@ -55,6 +55,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   Future<void> _submitGrievance() async {
     final title = _titleController.text;
     final description = _descriptionController.text;
+    final location = _locationController.text;
 
     final locationProvider =
         Provider.of<LocationProvider>(context, listen: false);
@@ -71,6 +72,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
         await grievanceProvider.addGrievance(
           title,
           description,
+          location,
           latitude.toString(),
           longitude.toString(),
           image,

@@ -42,10 +42,10 @@ class GrievanceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addGrievance(String title, String description, String? latitude,
+  Future<void> addGrievance(String title, String description, String? location, String? latitude,
       String? longitude, XFile? image) async {
     try {
-      await _apiService.uploadGrievance(title, description, latitude, longitude, image);
+      await _apiService.uploadGrievance(title, description, location, latitude, longitude, image);
       await loadGrievances();
     } catch (error) {
       print('Failed to add grievance: $error');
