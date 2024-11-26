@@ -170,7 +170,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               ),
               const SizedBox(height: 16),
               _locationController.text != ''
-                  ? LocationPicker()
+                  ? const LocationPicker()
                   : const SizedBox(),
               const SizedBox(height: 16),
               Container(

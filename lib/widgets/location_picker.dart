@@ -4,6 +4,7 @@ import 'package:grievance_mobile/providers/location_provider.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:latlong2/latlong.dart' as coordinates;
 import 'package:provider/provider.dart';
+import 'package:latlong2/latlong.dart';
 
 typedef Location = List<double> Function(dynamic data);
 
@@ -42,6 +43,12 @@ class _LocationPickerState extends State<LocationPicker> {
     _selectedLocation =
         SimpleLocationResult(widget.initialLatitude, widget.initialLongitude);
   }
+
+  final Map<String, LatLng> campusLocations = {
+    "Library": LatLng(1.5345933496911224, 103.68209746464632),
+    "Canteen": LatLng(37.4231, -122.0851),
+    "Admin Building": LatLng(37.4215, -122.0839),
+  };
 
   @override
   Widget build(BuildContext context) {
