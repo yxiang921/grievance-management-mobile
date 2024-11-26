@@ -69,23 +69,25 @@ class GrievanceDetailsPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 8),
-                        Text(
-                          'Assigned Date: ${grievance.assigned_at}',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        grievance.closed_at == null
+                        grievance.isAssigned
                             ? Text(
-                                'Closed At: ${grievance.closed_at}',
+                                'Assigned Date: ${grievance.assigned_at}',
                                 style: TextStyle(
                                   color: AppColors.primaryColor,
                                   fontSize: 16,
                                 ),
                               )
                             : SizedBox(height: 0),
+                        SizedBox(height: 8),
+                        grievance.closed_at == null
+                            ? SizedBox(height: 0)
+                            : Text(
+                                'Closed At: ${grievance.closed_at}',
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
                         SizedBox(height: 8),
                         grievance.location == null
                             ? SizedBox(height: 0)
