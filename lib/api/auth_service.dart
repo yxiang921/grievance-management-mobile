@@ -34,24 +34,30 @@ class AuthService {
     print("register service called");
     print("data: $username, $fullname, $email, $phone, $password");
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/auth/register'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'name': fullname,
-        'username': username,
-        'phone_number': phone,
-        'email': email,
-        'password': password,
-      }),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': fullname,
+          'username': username,
+          'phone_number': phone,
+          'email': email,
+          'password': password,
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      print("register successful");
-      return true;
-    } else {
-      return false;
+      if (response.statusCode == 200) {
+        print("register successful");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print("Error: $e");
     }
+
+    return false;
   }
 
   Future<void> logout() async {
