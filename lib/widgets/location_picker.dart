@@ -18,6 +18,8 @@ class LocationPicker extends StatefulWidget {
   final Color appBarTextColor;
   final String appBarTitle;
 
+  final String locationName;
+
   const LocationPicker({
     super.key,
     this.initialLatitude = 1.5336486914588254,
@@ -28,6 +30,7 @@ class LocationPicker extends StatefulWidget {
     this.appBarTextColor = Colors.white,
     this.appBarTitle = "Select Location",
     this.markerColor = Colors.blueAccent,
+    required this.locationName,
   });
 
   @override
@@ -37,18 +40,19 @@ class LocationPicker extends StatefulWidget {
 class _LocationPickerState extends State<LocationPicker> {
   late SimpleLocationResult _selectedLocation;
 
+  final Map<String, LatLng> campusLocations = {
+    "Library": LatLng(1.5345933496911224, 103.68209746464632),
+    "Canteen": LatLng(1.5245933496911224, 103.62209746464632),
+  };
+
   @override
   void initState() {
     super.initState();
+
+    print("Coord based on text: ${campusLocations[widget.locationName]}");
     _selectedLocation =
         SimpleLocationResult(widget.initialLatitude, widget.initialLongitude);
   }
-
-  final Map<String, LatLng> campusLocations = {
-    "Library": LatLng(1.5345933496911224, 103.68209746464632),
-    "Canteen": LatLng(37.4231, -122.0851),
-    "Admin Building": LatLng(37.4215, -122.0839),
-  };
 
   @override
   Widget build(BuildContext context) {
