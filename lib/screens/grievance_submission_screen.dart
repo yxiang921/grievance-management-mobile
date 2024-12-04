@@ -78,7 +78,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           image,
         );
 
-        final grievance = grievanceProvider.grievances.last;
+        final grievance = grievanceProvider.grievances.first;
 
         Navigator.push(
             context,
