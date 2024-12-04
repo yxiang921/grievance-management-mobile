@@ -44,13 +44,13 @@ class _GrievanceListState extends State<GrievanceList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    grievance.title,
+                    '${grievance.title.length > 30 ? grievance.title.substring(0, 30) + '...' : grievance.title}',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
-                    grievance.description,
+                    '${grievance.description.length > 50 ? grievance.description.substring(0, 50) + '...' : grievance.description}',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,

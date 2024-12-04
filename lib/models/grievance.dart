@@ -12,6 +12,7 @@ class Grievance {
   final String? outsourceRemark;
   final String? processRemark;
   final String? processImage;
+  final String? person_in_charged;
   final String? latitude;
   final String? longitude;
   final int? departmentId;
@@ -36,6 +37,7 @@ class Grievance {
     this.outsourceRemark,
     this.processRemark,
     this.processImage,
+    this.person_in_charged,
     this.latitude,
     this.longitude,
     this.departmentId,
@@ -61,6 +63,7 @@ class Grievance {
       outsourceRemark: json['outsource_remark'],
       processRemark: json['process_remark'],
       processImage: json['process_image'],
+      person_in_charged: json['person_in_charged'],
       latitude: json['latitude'],
       longitude: json['longitude'],
       departmentId: json['department_id'],

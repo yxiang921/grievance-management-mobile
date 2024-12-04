@@ -53,49 +53,149 @@ class GrievanceDetailsPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 8),
-                        Text(
-                          'Grievance ID: ${grievance.id}',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Status: ' + grievance.status,
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        grievance.isAssigned
-                            ? Text(
-                                'Assigned Date: ${grievance.assigned_at}',
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Grievance ID: ',
                                 style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${grievance.id}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                   color: AppColors.primaryColor,
                                   fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Status: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${grievance.status}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        grievance.person_in_charged == null
+                            ? SizedBox(height: 0)
+                            : Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Person in Charged: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: AppColors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: grievance.person_in_charged!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        SizedBox(height: 8),
+                        grievance.isAssigned
+                            ? Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Assigned Date: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: AppColors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${grievance.assigned_at}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )
                             : SizedBox(height: 0),
                         SizedBox(height: 8),
                         grievance.closed_at == null
                             ? SizedBox(height: 0)
-                            : Text(
-                                'Closed At: ${grievance.closed_at}',
-                                style: TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 16,
+                            : Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Closed At: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: AppColors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${grievance.closed_at}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                         SizedBox(height: 8),
                         grievance.location == null
                             ? SizedBox(height: 0)
-                            : Text(
-                                'Location:' + grievance.location!,
-                                style: TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 16,
+                            : Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Location: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: AppColors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: grievance.location!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                         SizedBox(height: 16),
