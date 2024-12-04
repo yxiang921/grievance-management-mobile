@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: _buildStatsCard(
-                          '$receivedCount', 'Received', Colors.black),
+                          '$receivedCount', 'Reported', Colors.black),
                     ),
                     SizedBox(width: 12),
                     Expanded(
