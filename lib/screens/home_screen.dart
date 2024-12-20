@@ -78,8 +78,7 @@ class _HomePageState extends State<HomePage> {
               Consumer<UserProvider>(
                 builder: (context, userProvider, child) {
                   final username = userProvider.username;
-                  final avatar = userProvider.avatarUrl;
-
+                  final avatar = "https://avatar.iran.liara.run/username?username=${username}";
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(

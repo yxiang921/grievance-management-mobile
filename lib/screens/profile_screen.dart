@@ -14,7 +14,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  String _avatarUrl = '';
   String _username = '';
   String _email = '';
 
@@ -27,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _initializeProfile() async {
-    _avatarUrl = await _storage.read(key: 'avatar') ?? '';
     _username = await _storage.read(key: 'username') ?? '';
     _email = await _storage.read(key: 'email') ?? '';
     setState(() {});
@@ -35,6 +33,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    String avatar = "https://avatar.iran.liara.run/username?username=${_username}";
+
     return Scaffold(
       body: Column(
         children: [
@@ -55,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ClipOval(
                     child: Image.network(
-                      _avatarUrl,
+                      avatar,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -80,12 +81,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          // Menu Items
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // Anonymous Mode
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
