@@ -13,7 +13,7 @@ class GrievanceHistoryScreen extends StatefulWidget {
 }
 
 class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
-  bool showPending = true;
+  String selectedTab = 'Pending'; // Track the selected tab
 
   @override
   void initState() {
@@ -26,9 +26,11 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final grievanceProvider = Provider.of<GrievanceProvider>(context);
-    final grievances = showPending
+    final grievances = selectedTab == 'Pending'
         ? grievanceProvider.receivedGrievancesList
-        : grievanceProvider.closedGrievancesList;
+        : selectedTab == 'In Progress'
+            ? grievanceProvider.inProgressGrievancesList
+            : grievanceProvider.closedGrievancesList;
 
     return Scaffold(
       body: Column(
@@ -38,9 +40,11 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               children: [
-                _buildTabButton('Pending', showPending),
+                _buildTabButton('Pending', selectedTab == 'Pending'),
                 const SizedBox(width: 8),
-                _buildTabButton('Completed', !showPending),
+                _buildTabButton('In Progress', selectedTab == 'In Progress'),
+                const SizedBox(width: 8),
+                _buildTabButton('Completed', selectedTab == 'Completed'),
               ],
             ),
           ),
@@ -66,7 +70,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
       child: TextButton(
         onPressed: () {
           setState(() {
-            showPending = text == 'Pending';
+            selectedTab = text;
           });
         },
         style: TextButton.styleFrom(
@@ -131,7 +135,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                     children: [
                       grievance.dueDate != null
                           ? Text("Due Date: ${grievance.dueDate}")
-                          : Text("This grievance doesn't assigned yet.")
+                          : const Text("This grievance isn't assigned yet.")
                     ],
                   ),
                   Text(
@@ -139,7 +143,9 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                     style: TextStyle(
                       color: grievance.status.toLowerCase() == 'pending'
                           ? Colors.orange
-                          : Colors.green,
+                          : grievance.status.toLowerCase() == 'in progress'
+                              ? Colors.blue
+                              : Colors.green,
                       fontSize: 14,
                     ),
                   ),

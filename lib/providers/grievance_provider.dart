@@ -30,6 +30,9 @@ class GrievanceProvider with ChangeNotifier {
   List<Grievance> get receivedGrievancesList =>
       _grievances.where((g) => g.status.toLowerCase() == 'received').toList();
 
+  List<Grievance> get inProgressGrievancesList =>
+      _grievances.where((g) => g.status.toLowerCase() == 'in progress').toList();
+
   List<Grievance> get closedGrievancesList =>
       _grievances.where((g) => g.status.toLowerCase() == 'closed').toList();
 
