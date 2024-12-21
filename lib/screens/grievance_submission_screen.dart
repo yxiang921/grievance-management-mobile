@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grievance_mobile/providers/grievance_provider.dart';
@@ -6,6 +9,7 @@ import 'package:grievance_mobile/screens/submission_success_screen.dart';
 import 'package:grievance_mobile/utils/colors.dart';
 import 'package:grievance_mobile/widgets/location_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class SubmitGrievancePage extends StatefulWidget {
@@ -18,6 +22,7 @@ class SubmitGrievancePage extends StatefulWidget {
 class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   String? _imageUrl;
   XFile? image;
+  XFile? imageToSubmit;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -41,14 +46,35 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
   }
 
   Future<void> pickImage() async {
-    var imagePicker = ImagePicker();
+    if (kIsWeb) {
+      var imagePicker = ImagePicker();
 
-    image = await imagePicker.pickImage(source: ImageSource.gallery);
+      image = await imagePicker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {
-      _imageUrl = image?.path;
-      print('Image path: $_imageUrl');
-      setState(() {});
+      if (image != null) {
+        _imageUrl = image?.path;
+        print('Image path: $_imageUrl');
+        imageToSubmit = image;
+        setState(() {});
+      }
+    } else {
+      var imagePicker = ImagePicker();
+      var pickedImage =
+          await imagePicker.pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        final directory = await getApplicationDocumentsDirectory();
+        final fileName = pickedImage.name;
+        final imageFile = File('${directory.path}/$fileName');
+
+        final newImage = await File(pickedImage.path).copy(imageFile.path);
+
+        _imageUrl = newImage.path;
+        imageToSubmit = pickedImage;
+        setState(() {});
+
+        print('Image path: $_imageUrl');
+      }
     }
   }
 
@@ -75,7 +101,7 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
           location,
           latitude.toString(),
           longitude.toString(),
-          image,
+          imageToSubmit,
         );
 
         final grievance = grievanceProvider.grievances.first;
@@ -175,8 +201,11 @@ class _SubmitGrievancePageState extends State<SubmitGrievancePage> {
               const SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                child:
-                    _imageUrl != null ? Image.network(_imageUrl!) : SizedBox(),
+                child: _imageUrl != null
+                    ? kIsWeb
+                        ? Image.network(_imageUrl!)
+                        : Image.file(File(_imageUrl!))
+                    : SizedBox(),
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
