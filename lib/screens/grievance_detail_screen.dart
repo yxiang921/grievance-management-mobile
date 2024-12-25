@@ -243,6 +243,20 @@ class GrievanceDetailsPage extends StatelessWidget {
                                         height: 1.5,
                                       ),
                                     ),
+                              grievance.processImage == null
+                                  ? SizedBox(height: 0)
+                                  : Container(
+                                      margin: EdgeInsets.only(top: 16),
+                                      height: 200,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              '${APIConstant.BASE_URL}/process_images/${grievance.processImage}'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
