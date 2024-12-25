@@ -76,29 +76,6 @@ class GrievanceDetailsPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 8),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Status: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: AppColors.black,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '${grievance.status}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 8),
                         grievance.person_in_charged == null
                             ? SizedBox(height: 0)
                             : Text.rich(
@@ -123,6 +100,29 @@ class GrievanceDetailsPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                        SizedBox(height: 24),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Status: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${grievance.status}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 8),
                         grievance.isAssigned
                             ? Text.rich(
@@ -205,6 +205,45 @@ class GrievanceDetailsPage extends StatelessWidget {
                             color: Colors.grey[600],
                             fontSize: 16,
                             height: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Reply from Department',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              grievance.processRemark == null
+                                  ? SizedBox(height: 0)
+                                  : Text(
+                                      grievance.processRemark!,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 16,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                            ],
                           ),
                         ),
                       ],
